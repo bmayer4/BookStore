@@ -1,0 +1,14 @@
+C:\Users\Brett\Documents\Projects\StoreApp\StoreApp.API\bin\Debug\netcoreapp2.1\StoreApp.API.deps.json
+C:\Users\Brett\Documents\Projects\StoreApp\StoreApp.API\bin\Debug\netcoreapp2.1\StoreApp.API.runtimeconfig.json
+C:\Users\Brett\Documents\Projects\StoreApp\StoreApp.API\bin\Debug\netcoreapp2.1\StoreApp.API.runtimeconfig.dev.json
+C:\Users\Brett\Documents\Projects\StoreApp\StoreApp.API\bin\Debug\netcoreapp2.1\StoreApp.API.dll
+C:\Users\Brett\Documents\Projects\StoreApp\StoreApp.API\bin\Debug\netcoreapp2.1\StoreApp.API.pdb
+C:\Users\Brett\Documents\Projects\StoreApp\StoreApp.API\obj\Debug\netcoreapp2.1\StoreApp.API.csprojAssemblyReference.cache
+C:\Users\Brett\Documents\Projects\StoreApp\StoreApp.API\obj\Debug\netcoreapp2.1\StoreApp.API.csproj.CoreCompileInputs.cache
+C:\Users\Brett\Documents\Projects\StoreApp\StoreApp.API\obj\Debug\netcoreapp2.1\StoreApp.API.RazorAssemblyInfo.cache
+C:\Users\Brett\Documents\Projects\StoreApp\StoreApp.API\obj\Debug\netcoreapp2.1\StoreApp.API.RazorAssemblyInfo.cs
+C:\Users\Brett\Documents\Projects\StoreApp\StoreApp.API\obj\Debug\netcoreapp2.1\StoreApp.API.AssemblyInfoInputs.cache
+C:\Users\Brett\Documents\Projects\StoreApp\StoreApp.API\obj\Debug\netcoreapp2.1\StoreApp.API.AssemblyInfo.cs
+C:\Users\Brett\Documents\Projects\StoreApp\StoreApp.API\obj\Debug\netcoreapp2.1\StoreApp.API.RazorTargetAssemblyInfo.cache
+C:\Users\Brett\Documents\Projects\StoreApp\StoreApp.API\obj\Debug\netcoreapp2.1\StoreApp.API.dll
+C:\Users\Brett\Documents\Projects\StoreApp\StoreApp.API\obj\Debug\netcoreapp2.1\StoreApp.API.pdb
