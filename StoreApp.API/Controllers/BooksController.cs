@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -30,7 +31,7 @@ namespace StoreApp.API.Controllers
 
             if (bookFromRepo == null)
             {
-                return BadRequest();
+                return NotFound();
             }
 
             var bookToReturn = _mapper.Map<BookForDetailDto>(bookFromRepo);
@@ -47,6 +48,95 @@ namespace StoreApp.API.Controllers
 
             return Ok(booksToReturn);
         }
+
+        [HttpPost("{id}/review")]
+        [Authorize]
+        public async Task<IActionResult> AddReviewForBook(int id, [FromBody] ReviewForCreationDto reviewForCreationDto)
+        {
+            if (reviewForCreationDto == null) 
+            {
+                return BadRequest();
+            }
+
+            if (!ModelState.IsValid) 
+            {
+                return BadRequest(ModelState);
+            }
+
+            var authId = 0;
+            int.TryParse(User.FindFirst(ClaimTypes.NameIdentifier).Value, out authId);
+            
+            var user = await _repo.GetUser(authId);
+
+            if (user == null)  
+            {
+                return Unauthorized();
+            }
+
+            var bookFromRepo = await _repo.GetBook(id);
+
+            if (bookFromRepo == null)  
+            {
+                return NotFound();
+            }
+
+            if (await _repo.ReviewExists(user.Id, id))
+            {
+                return BadRequest("You've already reviewed this book");
+            }
+
+            var review = new Review()
+            {
+                UserId = user.Id,
+                BookId = bookFromRepo.Id,
+                Content = reviewForCreationDto.Content,
+                Rating = reviewForCreationDto.Rating
+            };
+
+            _repo.Add(review);
+
+            if (!await _repo.SaveAll())
+            {
+                throw new Exception($"Book review for id {id} failed on save."); 
+            }
+            
+            return StatusCode(201);
+        }
+
+        [HttpDelete("{id}/deleteReview")]
+        [Authorize]
+        public async Task<IActionResult> DeleteReview(int id)
+        {
+            var authId = 0;
+            int.TryParse(User.FindFirst(ClaimTypes.NameIdentifier).Value, out authId);
+            
+            var user = await _repo.GetUser(authId);
+
+            if (user == null)  
+            {
+                return Unauthorized();
+            }
+
+            var reviewFromRepo = await _repo.getReview(id, authId);
+
+            if (reviewFromRepo == null)  
+            {
+                return NotFound();
+            }
+
+            _repo.Delete(reviewFromRepo);
+
+            if (!await _repo.SaveAll())
+            {
+                throw new Exception($"Deleting review for book {id} failed on save."); 
+            }
+            
+            return Ok();
+        }
+
+        // get all reviews by user
+        // include reviews with book get
+
 
         // [Authorize]  // can delete these methods
         // [HttpPost("ForAuthor")]

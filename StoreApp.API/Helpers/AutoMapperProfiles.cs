@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using StoreApp.API.Dtos;
 using StoreApp.API.Models;
@@ -16,9 +17,15 @@ namespace StoreApp.API.Helpers
 
             CreateMap<OrderForCreationDto, Order>();
 
-            CreateMap<Order, OrderForUserToReturnDto>();
+            CreateMap<Order, OrderForUserToReturnDto>()
+                .ForMember(dest => dest.TotalOrderPrice, opt => {
+                    opt.MapFrom(src => src.OrderItems.Sum(o => o.Quantity * o.Book.Price));
+                });
 
-            CreateMap<Order, OrderForGuestToReturnDto>();
+            CreateMap<Order, OrderForGuestToReturnDto>()
+            .ForMember(dest => dest.TotalOrderPrice, opt => {
+                    opt.MapFrom(src => src.OrderItems.Sum(o => o.Quantity * o.Book.Price));
+                });
 
             CreateMap<OrderItemForCreationDto, OrderItem>();
             

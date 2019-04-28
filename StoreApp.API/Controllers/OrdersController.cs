@@ -24,6 +24,52 @@ namespace StoreApp.API.Controllers
             _mapper = mapper;
         }
 
+
+        [Authorize]
+        [HttpGet("{id}", Name = "GetOrder")]
+        public async Task<IActionResult> GetOrderForUser(int id)
+        {
+            var authId = 0;
+            int.TryParse(User.FindFirst(ClaimTypes.NameIdentifier).Value, out authId);
+
+            var orderFromRepo = await _repo.GetOrder(id);
+
+            if (orderFromRepo == null)
+            {
+                return BadRequest();
+            };
+
+            if (orderFromRepo.User == null || orderFromRepo.User.Id != authId)
+            {
+                return Unauthorized();
+            }
+
+            var authOrderToReturn = _mapper.Map<OrderForUserToReturnDto>(orderFromRepo);
+
+            return Ok(authOrderToReturn);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> GetOrdersForUser()
+        {
+            var authId = 0;
+            int.TryParse(User.FindFirst(ClaimTypes.NameIdentifier).Value, out authId);
+
+            var user = await _repo.GetUser(authId);
+
+            if (user == null)  
+            {
+                return Unauthorized();
+            }
+
+            var authOrdersFromRepo = await _repo.GetOrdersForUser(authId);
+
+            var ordersToReturn = _mapper.Map<IEnumerable<OrderForUserToReturnDto>>(authOrdersFromRepo);
+
+            return Ok(ordersToReturn);
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddOrder([FromBody] OrderForCreationDto orderForCreationDto)
         {
@@ -41,14 +87,12 @@ namespace StoreApp.API.Controllers
 
             foreach (var item in orderEntity.OrderItems)
             {
-                var bookEntity = await _repo.GetBook(item.BookId);
+                var bookFromRepo = await _repo.GetBook(item.BookId);
 
-                if (bookEntity == null) 
+                if (bookFromRepo == null) 
                 {
                     return BadRequest();
                 }
-
-                item.Book = bookEntity;
             }
 
             if (!orderForCreationDto.Guest)
@@ -89,49 +133,5 @@ namespace StoreApp.API.Controllers
             return StatusCode(201, guestOrderToReturn);
         }
 
-        [Authorize]
-        [HttpGet("{orderId}", Name = "GetOrder")]
-        public async Task<IActionResult> GetOrder(int orderId)
-        {
-            var authId = 0;
-            int.TryParse(User.FindFirst(ClaimTypes.NameIdentifier).Value, out authId);
-
-            var orderFromRepo = await _repo.GetOrder(orderId);
-
-            if (orderFromRepo == null)
-            {
-                return BadRequest();
-            };
-
-            if (orderFromRepo.User == null || orderFromRepo.User.Id != authId)
-            {
-                return Unauthorized();
-            }
-
-            var authOrderToReturn = _mapper.Map<OrderForUserToReturnDto>(orderFromRepo);
-
-            return Ok(authOrderToReturn);
-        }
-
-        [Authorize]
-        [HttpGet]
-        public async Task<IActionResult> GetOrdersForUser()
-        {
-            var authId = 0;
-            int.TryParse(User.FindFirst(ClaimTypes.NameIdentifier).Value, out authId);
-
-            var user = await _repo.GetUser(authId);
-
-            if (user == null)  
-            {
-                return Unauthorized();
-            }
-
-            var authOrdersFromRepo = await _repo.GetOrdersForUser(authId);
-
-            var ordersToReturn = _mapper.Map<IEnumerable<OrderForUserToReturnDto>>(authOrdersFromRepo);
-
-            return Ok(ordersToReturn);
-        }
     }
 }

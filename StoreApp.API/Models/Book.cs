@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using StoreApp.API.Data;
 
 namespace StoreApp.API.Models
@@ -11,5 +12,6 @@ namespace StoreApp.API.Models
         public decimal Price { get; set; }
         public Author Author { get; set; }
         public int AuthorId { get; set; }
+        public ICollection<Review> Reviews { get; set; } = new List<Review>();
     }
 }

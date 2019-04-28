@@ -13,5 +13,6 @@ namespace StoreApp.API.Models
         public string Zip { get; set; }
         public string Country { get; set; }
         public ICollection<Order> Orders { get; set;} = new List<Order>();
+        public ICollection<Review> Reviews { get; set; } = new List<Review>();
     }
 }

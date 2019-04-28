@@ -15,5 +15,7 @@ namespace StoreApp.API.Dtos
                 return Enum.GetName(typeof(Genre), BookGenre);
             } 
         }
+        public decimal BookPrice { get; set; }
+        public decimal totalItemsPrice => BookPrice * Quantity;
     }
 }

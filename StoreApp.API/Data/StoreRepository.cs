@@ -47,6 +47,16 @@ namespace StoreApp.API.Data
             return await _context.Orders.Where(o => o.UserId != null).Include(o => o.User).Include(o => o.OrderItems).ThenInclude(o => o.Book).Where(o => o.UserId == id).ToListAsync();
         }
 
+        public async Task<bool> ReviewExists(int userId, int bookId)
+        {
+            return await _context.Reviews.AnyAsync(r => r.UserId == userId && r.BookId == bookId);
+        }
+
+        public async Task<Review> getReview(int bookId, int userId)
+        {
+            return await _context.Reviews.FirstOrDefaultAsync(r =>  r.BookId == bookId && r.UserId == userId);
+        }
+
         public async Task<bool> SaveAll()
         {
             return await _context.SaveChangesAsync() > 0;

@@ -8,7 +8,9 @@ namespace StoreApp.API.Dtos
         public int Id { get; set; }
         public DateTime OrderDate { get; set; }
         public int OrderNumber { get; set; }
+        public bool Shipped { get; set; }
         public ICollection<OrderItemToReturnDto> OrderItems { get; set; } = new List<OrderItemToReturnDto>();
+        public decimal TotalOrderPrice { get; set; }
         public string UserFirstName { get; set; }
         public string UserLastName { get; set; }
         public string UserStreet { get; set; }
