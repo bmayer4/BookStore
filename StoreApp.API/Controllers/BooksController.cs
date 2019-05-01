@@ -49,6 +49,16 @@ namespace StoreApp.API.Controllers
             return Ok(booksToReturn);
         }
 
+        [HttpGet("{bestSellers}")]
+        public async Task<IActionResult> GetBestSellingBooks()
+        {
+            var booksFromRepo = await _repo.GetBestSellingBooks();
+
+            var booksToReturn = _mapper.Map<IEnumerable<BookForListDto>>(booksFromRepo);
+
+            return Ok(booksToReturn);
+        }
+
         [HttpPost("{id}/review")]
         [Authorize]
         public async Task<IActionResult> AddReviewForBook(int id, [FromBody] ReviewForCreationDto reviewForCreationDto)
@@ -159,27 +169,27 @@ namespace StoreApp.API.Controllers
         //     return Ok();
         // }
 
-        // [Authorize]
-        // [HttpPost("ForBook")]
-        // public async Task<IActionResult> CreateBook([FromBody] BookForCreationDto bookForCreationDto)
-        // {
-        //     if (!ModelState.IsValid) 
-        //     {
-        //         return BadRequest(ModelState);
-        //     }
+        [Authorize]
+        [HttpPost("ForBook")]
+        public async Task<IActionResult> CreateBook([FromBody] BookForCreationDto bookForCreationDto)
+        {
+            if (!ModelState.IsValid) 
+            {
+                return BadRequest(ModelState);
+            }
 
-        //     var bookEntity = _mapper.Map<Book>(bookForCreationDto);
+            var bookEntity = _mapper.Map<Book>(bookForCreationDto);
 
-        //     bookEntity.AuthorId = 1;
+            bookEntity.AuthorId = 1;
 
-        //     _repo.Add(bookEntity);
+            _repo.Add(bookEntity);
 
-        //     if (!await _repo.SaveAll())
-        //     {
-        //         throw new Exception("Failed to create book");
-        //     }
+            if (!await _repo.SaveAll())
+            {
+                throw new Exception("Failed to create book");
+            }
 
-        //     return Ok();
-        // }
+            return Ok();
+        }
     }
 }

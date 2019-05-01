@@ -38,6 +38,11 @@ namespace StoreApp.API.Data
             return await _context.Books.Include(b => b.Author).ToListAsync();
         }
 
+        public async Task<IEnumerable<Book>> GetBestSellingBooks()
+        {
+            return await _context.Books.OrderByDescending(b => b.OrderItems.Sum(i => i.Quantity)).Take(3).ToListAsync();
+        }
+
         public async Task<Order> GetOrder(int id)
         {
             return await _context.Orders.Include(o => o.User).Include(o => o.OrderItems).ThenInclude(o => o.Book).FirstOrDefaultAsync(u => u.Id == id);

@@ -14,6 +14,7 @@ namespace StoreApp.API.Data
         Task<IEnumerable<Order>> GetOrdersForUser(int id);
         Task<Book> GetBook(int id);
         Task<IEnumerable<Book>> GetBooks();
+        Task<IEnumerable<Book>> GetBestSellingBooks();
         Task<bool> ReviewExists(int userId, int bookId);
         Task<Review> getReview(int bookId, int userId);
     }
