@@ -1,3 +1,24 @@
-<p>
-  landing works!
-</p>
+<div class="landing">
+  <div class="landing-header">
+    <div class="landing-info">
+       Search thousands of books
+    </div>
+    <div>
+      <button class="landing-button">Search Now</button>
+    </div>
+  </div>
+</div>
+<div class="best-sellers">
+    <app-best-selling-books></app-best-selling-books>
+</div>
+
+
+<div class="landing-about">
+  <div class="landing-about-info">BookStore is an online book store with thousands of books for sale.</div>
+  <div class="landing-about-info">Browse our books today!</div>
+</div>
+
+<footer>
+    <div>Copywrite &copy; <span class="footer-text">BookStore</span></div>
+    <div class="footer-year">{{ getYear() }}</div>
+</footer>

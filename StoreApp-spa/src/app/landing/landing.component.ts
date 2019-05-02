@@ -12,4 +12,8 @@ export class LandingComponent implements OnInit {
   ngOnInit() {
   }
 
+  getYear() {
+    return new Date().getFullYear();
+  }
+
 }

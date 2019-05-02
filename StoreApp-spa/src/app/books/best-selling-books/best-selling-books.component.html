@@ -1,0 +1,20 @@
+  <div class="best-selling-title">Our top selling books</div>
+  
+  <div class="best-selling-cards">
+    <div *ngFor="let b of bestSellingBooks" class="best-selling-card">
+        <div class="card-container">
+        <img src="{{ b.imageUrl }}" alt="{{ b.title }}" class="card-img">
+          <h3 class="card-header">{{ b.title }}</h3>
+          <div class="card-content">
+            <div>
+              <p><strong>Pages: </strong>{{ b.pages }}</p>
+              <p><strong>Genre: </strong>{{ b.genreName }}</p>
+            </div>
+            <div>
+                <p><strong>By: </strong>{{ b.authorFirstName }} {{ b.authorLastName }}</p>
+                <p><strong>Price: </strong>{{ b.price | currency }}</p>
+              </div>
+        </div>
+        </div>
+    </div>
+  </div>

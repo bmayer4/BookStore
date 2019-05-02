@@ -40,7 +40,7 @@ namespace StoreApp.API.Data
 
         public async Task<IEnumerable<Book>> GetBestSellingBooks()
         {
-            return await _context.Books.OrderByDescending(b => b.OrderItems.Sum(i => i.Quantity)).Take(3).ToListAsync();
+            return await _context.Books.Include(b => b.Author).OrderByDescending(b => b.OrderItems.Sum(i => i.Quantity)).Take(3).ToListAsync();
         }
 
         public async Task<Order> GetOrder(int id)

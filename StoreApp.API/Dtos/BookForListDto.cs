@@ -6,6 +6,7 @@ namespace StoreApp.API.Dtos
     public class BookForListDto
     {
         public int Id { get; set; }
+        public string ImageUrl { get; set; }
         public string Title { get; set; }
         public int Pages { get; set; }
         public Genre Genre { get; set; }
